@@ -1,0 +1,12 @@
+# These are intellij project files
+*.iml
+.idea
+
+# This is a cache for gradle
+.gradle
+
+# These are compiled artifacts
+/build
+
+# This is where intellij builds the project
+/out
