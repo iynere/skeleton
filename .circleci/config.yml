@@ -1,45 +1,80 @@
-# Java Gradle CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-java/ for more details
-#
 version: 2
 jobs:
-  build:
+  test:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-      
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
+    
     working_directory: ~/repo
-
+    
     environment:
       # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
-    
+      
     steps:
       - checkout
-
-      # Download and cache dependencies
+      
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "build.gradle" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
+      
       - run: gradle dependencies
-
+      
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "build.gradle" }}
-        
-      # run tests!
+          
       - run: gradle test
+      
+      - persist_to_workspace:
+          root: /home/circleci
+          paths:
+            - repo
+      
+    
+  build: # & push
+    docker:
+      - image: circleci/openjdk:8-jdk # ricardo's image will go here
+    
+    working_directory: ~/repo
+    
+    steps: 
+      - attach_workspace:
+          at: /home/circleci
+      
+      - run: ./gradlew distTar
+      
+      - setup_remote_docker
+      
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      
+      - run: docker build -t iynere/cornell-test:v1 .
+      
+      - run: docker push iynere/cornell-test:v1
+    
+  redeploy:
+    docker:
+      - image: circleci/openjdk:8-jdk
+      
+      - setup_remote_docker
+      
+      - run: docker pull iynere/cornell-test:v1
+      
+      - run: echo 'done!'
 
-
-
+workflows:
+  version: 2
+  test_build_redeploy:
+    jobs:
+      - test # run their tests
+      
+      - build: # if tests pass, build image & push to ECS
+          requires:
+            - test 
+            
+      - redeploy: # redeploy ECS cluster with new
+          requires:
+            - build
