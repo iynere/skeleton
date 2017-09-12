@@ -5,8 +5,6 @@
 # Use as are base image a linux with the java8 runtime already installed
 FROM openjdk:8
 
-RUN 
-
 # Add our application logic and ALL our dependencies into the docker image
 ADD build/distributions/skeleton-master.tar  /
 
