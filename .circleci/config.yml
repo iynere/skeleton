@@ -53,14 +53,14 @@ jobs:
       
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       
-      - run: docker build -t iynere/cornell-test:$CIRCLE_SHA1 .
+      - run: docker build -t iynere/cornell-test:$CIRCLE_SHA1 -t iynere/cornell-test:latest .
       
       - run: docker push iynere/cornell-test:$CIRCLE_SHA1
       
       - run:
           name: replace json tag
           command: |
-            sed -i 's/%%TAG%%/$CIRCLE_SHA1/g' task.json
+            sed -i 's/%%TAG%%/$CIRCLE_SHA1/g' cornell-demo-td.json
             sed -i 's/'
       
       # "taskDefinitionArn": "arn:aws:ecs:us-west-2:241099261431:task-definition/cornell-demo-td:4",
