@@ -1,8 +1,5 @@
 {
-  "requiresAttributes": [],
   "networkMode": "bridge",
-  "status": "ACTIVE",
-  "revision": 4,
   "taskRoleArn": null,
   "containerDefinitions": [
     {
