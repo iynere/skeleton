@@ -35,9 +35,9 @@ jobs:
             - repo
       
     
-  build: # & push
+  build:
     docker:
-      - image: circleci/openjdk:8-jdk # ricardo's image will go here
+      - image: felicianotech/docker-ci-aws
     
     working_directory: ~/repo
     
