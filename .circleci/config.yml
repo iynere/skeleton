@@ -69,7 +69,7 @@ jobs:
       - run:
           name: aws/ecs stuff
           command: |
-            revision=$(aws ecs register-task-definition --cli-input-json cornell-demo-td.json)
+            revision=$(aws ecs register-task-definition --cli-input-json file://root/skeleton/cornell-demo-td.json)
             
             echo $revision
 
