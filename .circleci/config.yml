@@ -60,7 +60,7 @@ jobs:
       - run:
           name: replace json tag
           command: |
-            sed -i 's/%%TAG%%/$CIRCLE_SHA1/g' cornell-demo-td.json
+            sed -i "s/%%TAG%%/$CIRCLE_SHA1/g" cornell-demo-td.json
             
       - run: cat cornell-demo-td.json
       
