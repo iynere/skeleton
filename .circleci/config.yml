@@ -32,7 +32,7 @@ jobs:
       - persist_to_workspace:
           root: /home/circleci
           paths:
-            - repo
+            - skeleton
       
     
   build&deploy:
