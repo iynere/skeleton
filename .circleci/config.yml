@@ -69,6 +69,8 @@ jobs:
       - run:
           name: aws/ecs stuff
           command: |
+            aws configure --region us-west-2
+            
             revision=$(aws ecs register-task-definition --cli-input-json file://$HOME/skeleton/cornell-demo-td.json)
             
             echo $revision
