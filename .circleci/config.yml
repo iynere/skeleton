@@ -53,11 +53,11 @@ jobs:
       
       - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
       
-      - run: docker build -t iynere/cornell-test:v2 .
+      - run: docker build -t iynere/cornell-test:$CIRCLE_SHA1 .
       
-      - run: docker push iynere/cornell-test:v2
+      - run: docker push iynere/cornell-test:$CIRCLE_SHA1
       
-      - run: docker pull iynere/cornell-test:v2
+      - run: docker pull iynere/cornell-test:$CIRCLE_SHA1
       
       - run: echo 'done!'
 
