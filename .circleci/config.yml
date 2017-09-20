@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  test:
+  test&build:
     docker:
       - image: circleci/openjdk:8-jdk
     
@@ -29,13 +29,15 @@ jobs:
           
       - run: gradle test
       
+      - run: ./gradlew distTar
+      
       - persist_to_workspace:
           root: /home/circleci
           paths:
             - skeleton
       
     
-  build&deploy:
+  deploy:
     docker:
       - image: felicianotech/docker-ci-aws
     
@@ -44,8 +46,6 @@ jobs:
     steps: 
       - attach_workspace:
           at: /home/circleci
-      
-      - run: ./gradlew distTar
       
       - setup_remote_docker
       
@@ -61,10 +61,10 @@ jobs:
 
 workflows:
   version: 2
-  test_build&deploy:
+  test&build_deploy:
     jobs:
-      - test # run their tests
+      - test&build # run their tests
       
-      - build&deploy: # if tests pass, build image & push to ECS
+      - deploy: # if tests pass, build image & push to ECS
           requires:
             - test 
