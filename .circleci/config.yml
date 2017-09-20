@@ -71,7 +71,7 @@ jobs:
             
             echo $revision
 
-            aws ecs run-task --task-definition cornell-demo-td --count 1
+           aws ecs update-service --service cornell-demo-service --task-definition $revision
       
       - run: echo 'done!'
 
