@@ -1,0 +1,47 @@
+{
+  "requiresAttributes": [],
+  "taskDefinitionArn": "arn:aws:ecs:us-west-2:241099261431:task-definition/cornell-demo-td:4",
+  "networkMode": "bridge",
+  "status": "ACTIVE",
+  "revision": 4,
+  "taskRoleArn": null,
+  "containerDefinitions": [
+    {
+      "volumesFrom": [],
+      "memory": 256,
+      "extraHosts": null,
+      "dnsServers": null,
+      "disableNetworking": null,
+      "dnsSearchDomains": null,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "hostname": null,
+      "essential": true,
+      "entryPoint": null,
+      "mountPoints": [],
+      "name": "demo-container",
+      "ulimits": null,
+      "dockerSecurityOptions": null,
+      "environment": [],
+      "links": null,
+      "workingDirectory": null,
+      "readonlyRootFilesystem": null,
+      "image": "docker.io/iynere/cornell-test:v1",
+      "command": null,
+      "user": null,
+      "dockerLabels": null,
+      "logConfiguration": null,
+      "cpu": 0,
+      "privileged": null,
+      "memoryReservation": null
+    }
+  ],
+  "placementConstraints": [],
+  "volumes": [],
+  "family": "cornell-demo-td"
+}
