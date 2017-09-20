@@ -6,7 +6,7 @@
 FROM openjdk:8
 
 # Add our application logic and ALL our dependencies into the docker image
-ADD build/distributions/repo.tar  /
+ADD build/distributions/skeleton.tar  /
 
 # The .tar file that gradle builds includes everything in src/main, but we also need
 # our appconfig.yml (which is not part of the .tar that gradle builds) so we must

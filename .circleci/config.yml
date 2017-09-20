@@ -40,6 +40,8 @@ jobs:
   deploy:
     docker:
       - image: felicianotech/docker-ci-aws
+    environment:
+      ECS_CLUSTER: # set cluster name here 
     
     working_directory: ~/skeleton
     
