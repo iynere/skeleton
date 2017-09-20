@@ -67,4 +67,4 @@ workflows:
       
       - deploy: # if tests pass, build image & push to ECS
           requires:
-            - test 
+            - test&build 
