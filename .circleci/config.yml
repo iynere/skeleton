@@ -41,7 +41,7 @@ jobs:
     docker:
       - image: felicianotech/docker-ci-aws
     environment:
-      ECS_CLUSTER: # set cluster name here 
+      ECS_CLUSTER: cornell-demo 
     
     working_directory: ~/skeleton
     
@@ -57,7 +57,20 @@ jobs:
       
       - run: docker push iynere/cornell-test:$CIRCLE_SHA1
       
-      - run: docker pull iynere/cornell-test:$CIRCLE_SHA1
+      - run:
+          name: replace json tag
+          command: |
+            sed -i 's/%%TAG%%/$CIRCLE_SHA1/g' task.json
+            sed -i 's/'
+      
+      # "taskDefinitionArn": "arn:aws:ecs:us-west-2:241099261431:task-definition/cornell-demo-td:4",
+            
+      - run:
+          name: aws/ecs stuff
+          command: |
+            aws ecs register-task-definition --cli-input-json cornell-demo-td.json
+
+            aws ecs run-task --task-definition cornell-demo-td --count 1
       
       - run: echo 'done!'
 

@@ -1,6 +1,5 @@
 {
   "requiresAttributes": [],
-  "taskDefinitionArn": "arn:aws:ecs:us-west-2:241099261431:task-definition/cornell-demo-td:4",
   "networkMode": "bridge",
   "status": "ACTIVE",
   "revision": 4,
