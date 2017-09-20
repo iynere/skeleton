@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     
-    working_directory: ~/repo
+    working_directory: ~/skeleton
     
     environment:
       # Customize the JVM maximum heap limit
@@ -35,11 +35,11 @@ jobs:
             - repo
       
     
-  build:
+  build&deploy:
     docker:
       - image: felicianotech/docker-ci-aws
     
-    working_directory: ~/repo
+    working_directory: ~/skeleton
     
     steps: 
       - attach_workspace:
@@ -54,14 +54,6 @@ jobs:
       - run: docker build -t iynere/cornell-test:v2 .
       
       - run: docker push iynere/cornell-test:v2
-    
-  redeploy:
-    docker:
-      - image: circleci/openjdk:8-jdk
-      
-    steps:
-      
-      - setup_remote_docker
       
       - run: docker pull iynere/cornell-test:v2
       
@@ -69,14 +61,10 @@ jobs:
 
 workflows:
   version: 2
-  test_build_redeploy:
+  test_build&deploy:
     jobs:
       - test # run their tests
       
-      - build: # if tests pass, build image & push to ECS
+      - build&deploy: # if tests pass, build image & push to ECS
           requires:
             - test 
-            
-      - redeploy: # redeploy ECS cluster with new
-          requires:
-            - build
